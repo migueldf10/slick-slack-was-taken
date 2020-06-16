@@ -16,9 +16,22 @@ async function printUsers() {
 	console.log(users)
 }
 
-async function printMessages() {
-	const messages = await message.findAll()
-	console.log(messages)
+async function printMessagesWithUsersAndConversations() {
+	const messages = await message.findAll(
+		{
+			include: [user, conversation]
+		}
+	)
+	console.log(messages.map(message => message.get({ plain: true })))
 }
 
-printMessages()
+async function printConversations() {
+	const conversations = await conversation.findAll({ include: [user, message] })
+	const planeConversations = await conversations.map(conversation => conversation.get({ plain: true }))
+	console.log('users', planeConversations.map(conversation => conversation.users))
+	console.log('messages', planeConversations.map(conversation => conversation.messages))
+
+}
+
+
+printConversations()
