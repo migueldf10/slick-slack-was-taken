@@ -1,14 +1,16 @@
+const cors = require("cors");
 const express = require("express");
 const app = express();
-const PORT = 4000;
-
+const PORT = process.env.PORT || 4000;
 const Conversation = require("./models").conversation;
 const User = require("./models").user;
 const Message = require("./models").message;
 
+
+
+
+app.use(cors());
 app.use(express.json());
-
-
 
 app.post("/users", async (req, res, next) => {
 	try {
