@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     user.hasMany(models.message);
     user.belongsToMany(models.conversation, {
       through: "conversation_user",
-      foreignKey: "user_id",
+      foreignKey: "userId",
     });
   };
   return user;

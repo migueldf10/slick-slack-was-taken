@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     conversation.hasMany(models.message);
     conversation.belongsToMany(models.user, {
       through: "conversation_user",
-      foreignKey: "conversation_id",
+      foreignKey: "conversationId",
     });
 
   };

@@ -6,38 +6,38 @@ module.exports = {
       'conversations_users',
       [
         {
-          user_id: 1,
-          conversation_id: 1,
+          userId: 1,
+          conversationId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          user_id: 1,
-          conversation_id: 2,
+          userId: 1,
+          conversationId: 2,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          user_id: 2,
-          conversation_id: 2,
+          userId: 2,
+          conversationId: 2,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          user_id: 2,
-          conversation_id: 2,
+          userId: 2,
+          conversationId: 2,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          user_id: 3,
-          conversation_id: 2,
+          userId: 3,
+          conversationId: 2,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          user_id: 4,
-          conversation_id: 2,
+          userId: 4,
+          conversationId: 2,
           createdAt: new Date(),
           updatedAt: new Date()
         },

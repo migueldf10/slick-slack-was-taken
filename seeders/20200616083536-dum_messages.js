@@ -6,29 +6,29 @@ module.exports = {
       'messages',
       [
         {
-          sender_id: 1,
-          conversation_id: 1,
+          userId: 1,
+          conversationId: 1,
           body: 'Hey, this is a message',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          sender_id: 1,
-          conversation_id: 2,
+          userId: 1,
+          conversationId: 2,
           body: 'Hey, this is another 2  message',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          sender_id: 2,
-          conversation_id: 1,
+          userId: 2,
+          conversationId: 1,
           body: 'Hey, this is a third message',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          sender_id: 2,
-          conversation_id: 2,
+          userId: 2,
+          conversationId: 2,
           body: 'Hey, this is a fourth message',
           createdAt: new Date(),
           updatedAt: new Date()
