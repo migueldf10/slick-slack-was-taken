@@ -6,8 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING
   }, {});
   user.associate = function (models) {
-    user.belongsToMany(models.conversation);
     user.hasMany(models.message);
+    user.belongsToMany(models.conversation, {
+      through: "conversation_user",
+      foreignKey: "user_id",
+    });
   };
   return user;
 }

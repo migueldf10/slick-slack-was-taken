@@ -2,7 +2,16 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.addColumn("todoLists", "userId", {
+    await queryInterface.addColumn("messages", "conversation_id", {
+      type: Sequelize.INTEGER,
+      references: {
+        model: "conversations",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "SET NULL",
+    });
+    await queryInterface.addColumn("messages", "sender_id", {
       type: Sequelize.INTEGER,
       references: {
         model: "users",
@@ -13,7 +22,8 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeColumn("todoLists", "userId");
+    await queryInterface.removeColumn("messages", "conversation_id");
+    await queryInterface.removeColumn("messages", "sender_id");
 
   },
 };
