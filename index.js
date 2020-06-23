@@ -1,19 +1,22 @@
 const cors = require("cors");
 const express = require("express");
+const router = express.Router()
 const app = express();
 const PORT = process.env.PORT || 4000;
 const Conversation = require("./models").conversation;
 const User = require("./models").user;
 const Message = require("./models").message;
+const Conversation_user = require("./models").conversation_user
+const jsonParser = express.json();
+const corsMiddleware = cors();
 
 
-
-
-app.use(cors());
-app.use(express.json());
+app.use(corsMiddleware);
+app.use(jsonParser);
 
 app.post("/users", async (req, res, next) => {
 	try {
+		console.log(req.body)
 		const email = req.body.email;
 		if (!email || email === " ") {
 			res.status(400).send("Must provide an email address");
@@ -21,8 +24,20 @@ app.post("/users", async (req, res, next) => {
 			const user = await User.create(req.body);
 			res.json(user);
 		}
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		console.log(error)
+		next(error);
+	}
+});
+app.get("/users", async (req, res, next) => {
+	try {
+		console.log(req.body)
+		const users = await User.findAll();
+		res.json(users);
+
+	} catch (error) {
+		console.log(error)
+		next(error);
 	}
 });
 
@@ -99,6 +114,24 @@ app.get("/conversations/:conversationId", async (req, res, next) => {
 			res.status(404).send("Conversation not found");
 		}
 	} catch (e) {
+		next(e);
+	}
+});
+app.post("/conversations", async (req, res, next) => {
+	try {
+		console.log(req.body)
+		if (req.body && req.body.title) {
+			const conversationTitle = req.body.title
+			const usersInConversation = req.body.participants
+			const conversation = await Conversation.create({ title: conversationTitle });
+			usersInConversation.map(async (user) =>
+				await Conversation_user.create({ userId: user.id, conversationId: conversation.id }))
+			res.send({ conversation, usersInConversation })
+		} else {
+			res.status(400).send("Make sure you have a valid name and valid users");
+		}
+	} catch (e) {
+		console.log(e)
 		next(e);
 	}
 });
