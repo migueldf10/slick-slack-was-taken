@@ -3,10 +3,12 @@ const express = require("express");
 const router = express.Router()
 const app = express();
 const PORT = process.env.PORT || 4000;
+
 const Conversation = require("./models").conversation;
 const User = require("./models").user;
 const Message = require("./models").message;
 const Conversation_user = require("./models").conversation_user
+
 const jsonParser = express.json();
 const corsMiddleware = cors();
 
@@ -119,15 +121,15 @@ app.get("/conversations/:conversationId", async (req, res, next) => {
 });
 app.post("/conversations", async (req, res, next) => {
 	try {
-		console.log(req.body)
 		if (req.body && req.body.title) {
-			const conversationTitle = req.body.title
-			const usersInConversation = req.body.participants
-			const conversation = await Conversation.create({ title: conversationTitle });
-			usersInConversation.map(async (user) =>
-				await Conversation_user.create({ userId: user.id, conversationId: conversation.id }))
-			res.send({ conversation, usersInConversation })
-		} else {
+			const conversation = await Conversation.create({ title: req.body.title });
+			if (req.body && req.body.participants) {
+				const participants = await req.body.participants.map(async (user) =>
+					await Conversation_user.create({ userId: user.id, conversationId: conversation.id }))
+				res.send({ conversation, participants })
+			}
+		}
+		else {
 			res.status(400).send("Make sure you have a valid name and valid users");
 		}
 	} catch (e) {
@@ -136,4 +138,6 @@ app.post("/conversations", async (req, res, next) => {
 	}
 });
 
-app.listen(PORT, () => console.log(`Eureka, is Alive!! listening on port http://localhost:${PORT}`))
+
+
+app.listen(PORT, () => console.log(`Eureka, it's is Alive!! listening on port http://localhost:${PORT}`))
