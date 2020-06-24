@@ -9,12 +9,8 @@ const User = require("./models").user;
 const Message = require("./models").message;
 const Conversation_user = require("./models").conversation_user
 
-const jsonParser = express.json();
-const corsMiddleware = cors();
-
-
-app.use(corsMiddleware);
-app.use(jsonParser);
+app.use(cors());
+app.use(express.json());
 
 app.post("/users", async (req, res, next) => {
 	try {
@@ -31,6 +27,7 @@ app.post("/users", async (req, res, next) => {
 		next(error);
 	}
 });
+
 app.get("/users", async (req, res, next) => {
 	try {
 		console.log(req.body)
@@ -104,6 +101,7 @@ app.get("/users/:userId/conversations", async (req, res, next) => {
 	}
 });
 
+// Getting conversation
 app.get("/conversations/:conversationId", async (req, res, next) => {
 	try {
 		const conversationId = parseInt(req.params.conversationId);
@@ -119,6 +117,8 @@ app.get("/conversations/:conversationId", async (req, res, next) => {
 		next(e);
 	}
 });
+
+// Create conversation
 app.post("/conversations", async (req, res, next) => {
 	try {
 		if (req.body && req.body.title) {
