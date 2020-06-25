@@ -123,14 +123,43 @@ app.post("/conversations", async (req, res, next) => {
 	try {
 		if (req.body && req.body.title) {
 			const conversation = await Conversation.create({ title: req.body.title });
-			if (req.body && req.body.participants) {
-				const participants = await req.body.participants.map(async (user) =>
-					await Conversation_user.create({ userId: user.id, conversationId: conversation.id }))
+			if (req.body.participants) {
+				console.log(req.body.participants)
+				const participants = await req.body.participants.map(async (user) => {
+					if (user.checked) {
+						await Conversation_user.create({ userId: user.id, conversationId: conversation.id })
+					}
+				})
 				res.send({ conversation, participants })
 			}
 		}
 		else {
 			res.status(400).send("Make sure you have a valid name and valid users");
+		}
+	} catch (e) {
+		console.log(e)
+		next(e);
+	}
+});
+// Create messages
+app.post("/messages", async (req, res, next) => {
+	try {
+		if (!req.body) {
+			return res.status(400).send("FAIL, no body");
+		}
+		if (!req.body.conversationId) {
+			return res.status(400).send("Make sure you provide a valid conversation id");
+		}
+		if (!req.body.userId) {
+			return res.status(400).send("Make sure you provide a valid user id");
+		}
+		if (req.body.message) {
+			const message = await Message.create({
+				message: req.body.message,
+				useId: req.body.useId,
+				conversationId: req.body.conversationId,
+			});
+			res.send(message)
 		}
 	} catch (e) {
 		console.log(e)
